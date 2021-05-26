@@ -14,11 +14,12 @@ import android.widget.TextView;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tvTime, tvDuration,tvTitle,tvArtist;
+    TextView tvTime, tvDuration, tvTitle, tvArtist;
     SeekBar seekBarTime, seekBarVolume;
     Button btnPlay;
 
     MediaPlayer musicPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        Song song = (Song)getIntent().getSerializableExtra("song");
-
-
+        Song song = (Song) getIntent().getSerializableExtra("song");
 
 
         tvTime = findViewById(R.id.tvTime);
@@ -44,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
         tvArtist.setText(song.getArtist());
 
 
-
-
-
-
-        musicPlayer = new  MediaPlayer();
+        musicPlayer = new MediaPlayer();
         try {
             musicPlayer.setDataSource(song.getPath());
             musicPlayer.prepare();
@@ -72,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean isFromUser) {
-            float volume = progress/100f;
-            musicPlayer.setVolume(volume,volume);
+                float volume = progress / 100f;
+                musicPlayer.setVolume(volume, volume);
             }
 
             @Override
@@ -87,32 +82,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    seekBarTime.setMax(musicPlayer.getDuration());
-    seekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean isFromUser ) {
-            if(isFromUser) {
-                musicPlayer.seekTo(progress);
-                seekBar.setProgress(progress);
+        seekBarTime.setMax(musicPlayer.getDuration());
+        seekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean isFromUser) {
+                if (isFromUser) {
+                    musicPlayer.seekTo(progress);
+                    seekBar.setProgress(progress);
+                }
             }
-        }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-        }
+            }
 
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-        }
-    });
+            }
+        });
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (musicPlayer != null) {
-                    if(musicPlayer.isPlaying()) {
+                    if (musicPlayer.isPlaying()) {
                         try {
                             final double current = musicPlayer.getCurrentPosition();
                             final String elapsedTime = millisecondsToString((int) current);
@@ -126,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                             Thread.sleep(1000);
-                        }catch (InterruptedException e) {}
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
             }
@@ -138,18 +134,18 @@ public class MainActivity extends AppCompatActivity {
         String elapsedTime = "";
         int minutes = time / 1000 / 60;
         int seconds = time / 1000 % 60;
-        elapsedTime = minutes+":";
-        if(seconds < 10) {
+        elapsedTime = minutes + ":";
+        if (seconds < 10) {
             elapsedTime += "0";
         }
         elapsedTime += seconds;
 
-        return  elapsedTime;
+        return elapsedTime;
     }
 
     public void onClick(View view) {
-        if(view.getId() == R.id.btnPlay) {
-            if(musicPlayer.isPlaying()) {
+        if (view.getId() == R.id.btnPlay) {
+            if (musicPlayer.isPlaying()) {
                 // is playing
                 musicPlayer.pause();
                 btnPlay.setBackgroundResource(R.drawable.ic_play);
@@ -163,9 +159,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
+            if (musicPlayer.isPlaying()) {
+                musicPlayer.stop();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (musicPlayer.isPlaying()) {
+            musicPlayer.stop();
+        } else
+            super.onBackPressed();
     }
 }

@@ -45,6 +45,7 @@ public class ListMusic extends AppCompatActivity {
             lvSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                     Song song = songArrayList.get(position);
                     Intent openMusicPlayer = new Intent(ListMusic.this, MainActivity.class);
                     openMusicPlayer.putExtra("song",song);

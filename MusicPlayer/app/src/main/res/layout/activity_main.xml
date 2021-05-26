@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
     tools:context=".MainActivity"
     android:background="@drawable/background">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Some One like you"
+    android:id="@+id/tvTitle"
     android:textAllCaps="true"
     android:textSize="18sp"
     android:textColor="#fff"
     android:textStyle="bold"
     android:layout_marginTop="20dp"
-    ></TextView>
+    tools:ignore="InvalidId"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/tvArtist"
         android:text="adele"
         android:textAllCaps="true"
         android:textSize="18sp"
         android:textColor="#fff"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
-        ></TextView>
+        tools:ignore="InvalidId"></TextView>
 
 
 <ImageView
@@ -101,3 +107,4 @@
             android:src="@drawable/ic_volume_up_interface_symbol" />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>
